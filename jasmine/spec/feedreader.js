@@ -75,22 +75,22 @@ $(function() {
         * 再次点击的时候是否隐藏。
         */
        it("should toggle hidden when click", function() {
-           var body = $("body"),
-               menuIcon = $('.menu-icon-link');
+
+           menuIcon = $('.menu-icon-link');
 
            menuIcon.click();
-           var menuHidden = $(".menu-hidden");
-           expect(menuHidden.length).toEqual(0);
+           //这里用jquery的hasClass方法更好理解
+           expect($("body").hasClass("menu-hidden")).toBe(false);
+           // var menuHidden = $(".menu-hidden");
+           // expect(menuHidden.length).toEqual(0);
            menuIcon.click();
-           menuHidden = $(".menu-hidden");
-           expect(menuHidden.length).toEqual(1);
+           expect($("body").hasClass("menu-hidden")).toBe(true);
+           // menuHidden = $(".menu-hidden");
+           // expect(menuHidden.length).toEqual(1);
 
        });
 
    });
-    
-        
-
     /* TODO: 13. 写一个叫做 "Initial Entries" 的测试用例 */
     describe("Initial Entries",function() {
         /* TODO:
