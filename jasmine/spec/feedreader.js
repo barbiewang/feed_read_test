@@ -26,12 +26,13 @@ $(function() {
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
         it('urls are defined',function(){
-            for(var i = 0;i<allFeeds.length;i++){
-                 var url = allFeeds[i].url;
-
-                expect(url).toBeDefined();
-                expect(url.length).not.toBe(0);
+            for (var i = 0; i < allFeeds.length; i++) {
+                // 检查 URL 格式是否正确的正规表达式
+                var regularExpressionUrl = /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/;
+                // 检查格式
+                expect(allFeeds[i].url).toMatch(regularExpressionUrl);
             }
+            sameDetection("url");
 
         });
 
@@ -39,14 +40,19 @@ $(function() {
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有名字字段而且不是空的。
          */
         it('names are defined',function(){
-            for(var i = 0;i<allFeeds.length;i++){
-                var name = allFeeds[i].name;
-
-                expect(name).toBeDefined();
-                expect(name.length).not.toBe(0);
-            }
+            sameDetection("name");
 
         });
+
+        //该函数可直接被上面两个spec调用，避免重复写代码；
+        function sameDetection(ele) {
+            for (var i = 0; i < allFeeds.length; i++) {
+                var element =  allFeeds[i][ele];
+                expect(element).toBeDefined();
+                expect(element.length).not.toBe(0);
+
+            }
+        }
     });
 
 
