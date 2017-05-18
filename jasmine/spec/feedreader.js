@@ -32,6 +32,7 @@ $(function() {
                 // 检查格式
                 expect(allFeeds[i].url).toMatch(regularExpressionUrl);
             }
+            //调用函数
             sameDetection("url");
 
         });
@@ -40,6 +41,7 @@ $(function() {
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有名字字段而且不是空的。
          */
         it('names are defined',function(){
+            //调用函数
             sameDetection("name");
 
         });
@@ -64,9 +66,7 @@ $(function() {
          * 来搞清楚我们是怎么实现隐藏/展示菜单元素的。
          */
        it("should be hidden default",function(){
-           var menuHidden = $(".menu-hidden");
-
-           expect(menuHidden.length).toEqual(1);
+           expect($("body").hasClass("menu-hidden")).toBe(true);
        });
 
        /* TODO:
