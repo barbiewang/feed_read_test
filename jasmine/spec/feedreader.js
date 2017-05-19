@@ -100,16 +100,16 @@ $(function() {
          * 记住 loadFeed() 函数是异步的所以这个而是应该使用 Jasmine 的 beforeEach
          * 和异步的 done() 函数。
          */
-        beforeEach(function (done) {
-            loadFeed(2, function () {
-                done();
-            });
 
-        });
-        it("be loadFeed", function (done) {
+        //由于loadFeed自带一个callback,所以直接将done写在loadFeed里
+        beforeEach(function (done) {
+            loadFeed(0, done);
+        },5000);//设置5s的时间，保证有一定的时间加载loadFeed，推迟执行剩余的测试
+
+        //如果loadFeed加载成功，判断内容区是否有内容；
+        it("be loadFeed", function(){
             var container = $('.feed');
             expect(container.length).toBeGreaterThan(0);
-            done();
         });
     });
 
@@ -120,20 +120,41 @@ $(function() {
          * 记住，loadFeed() 函数是异步的。
          */
 
+        //同上，先加载异步函数loadFeed(2)
         beforeEach(function (done) {
-            loadFeed(2, function () {
-                done();
-            });
-        }, 10000);
+            loadFeed(2, done)
+        },5000);//设置5s的时间，保证有一定的时间加载loadFeed，推迟执行剩余的测试
 
+        //判断之前加载的loadFeed(2)的内容是否等于loadFeed(0)的内容
         it("load container1", function (done) {
-            var text0 = $('.feed').text();
+            //获取已加载的loadFeed(2)的内容
+            var text2 = $('.feed').text();
+            //加载loadFeed(0)的内容，以便比较是否内容真的改变了
             loadFeed(0, function () {
-                var text1 = $('.feed').text();
-                expect(text0).not.toEqual(text1);
+                var text0 = $('.feed').text();
+                expect(text0).not.toEqual(text2);
                 done();
             });
-        }, 10000);
+        });
     });
+
+    //以下为导师的嵌套执行方法，备份
+    // var text1,
+    //     text2;
+    // beforeEach(function(done){
+    //     loadFeed(0,function(){
+    //         text1 = $(".feed").text();
+    //         //console.log("1加载完了");
+    //         loadFeed(1,function(){
+    //             text2 = $(".feed").text();
+    //             //console.log("2加载完了");
+    //             done();
+    //         });
+    //     });
+    // });
+    // it("container change",function(){
+    //     expect(text1).not.toEqual(text2);
+    //     //console.log("比较完了");
+    // })
 
 }());
